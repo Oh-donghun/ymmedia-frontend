@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Custom: 패치 스크립트 (한글 파일 생성용)
+patch-*.js
