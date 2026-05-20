@@ -4,10 +4,10 @@ export const COMPANY = {
   nameFull: '와이엠미디어',
   ceo: '서영미',
   bizNumber: '253-13-02733',
-  ecommerceNumber: '신청 중',
+  ecommerceNumber: '제2026-부산서구-0100호',
   address: '부산광역시 서구 대영로38번길 11, 103동 1601호',
   addressDetail: '서대신동1가, 대신푸르지오',
-  phone: '010-2564-7096',
+  phone: '010-9304-1117',
   email: 'ymmedia40@gmail.com',
   domain: 'ymmedia.co.kr',
 } as const;
