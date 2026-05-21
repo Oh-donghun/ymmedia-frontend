@@ -111,8 +111,23 @@ export default function J1Page() {
       });
 
       if (!res.ok) throw new Error('order failed');
-      const { orderId } = await res.json();
-      router.push(`/unsedang/order/confirm/?o=${orderId}`);
+      const data = await res.json();
+
+      sessionStorage.setItem(
+        'unsedang_order',
+        JSON.stringify({
+          orderId: data.orderId,
+          brand: data.brand,
+          amount: data.amount,
+          productName: data.productName,
+          funnel: data.funnel,
+          tossMode: data.tossMode,
+          tossClientKey: data.tossClientKey,
+          customerName: formData.name.trim(),
+          customerPhone: formData.phone.replace(/\D/g, ''),
+        })
+      );
+      router.push('/order/confirm');
     } catch (err) {
       alert('결제 진입에 실패했습니다. 다시 시도해 주세요.');
       setLoading(false);
