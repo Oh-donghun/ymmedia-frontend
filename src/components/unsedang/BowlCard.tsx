@@ -82,6 +82,17 @@ export default function BowlCard({
         useCORS: true,
         allowTaint: true,
         logging: false,
+        onclone: (_, clonedCard) => {
+          // 클론된 DOM의 모든 애니메이션 즉시 종료 상태로 강제
+          // (fadeUp opacity:0 → 1 애니메이션 때문에 캡처 시 텍스트 안 보이는 문제 해결)
+          const allElements = clonedCard.querySelectorAll('*');
+          allElements.forEach((el) => {
+            const htmlEl = el as HTMLElement;
+            htmlEl.style.animation = 'none';
+            htmlEl.style.opacity = '1';
+            htmlEl.style.transform = 'none';
+          });
+        },
       });
 
       // 4. video 복귀
