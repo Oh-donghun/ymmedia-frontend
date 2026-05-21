@@ -1,24 +1,46 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 import { COMPANY } from '@/lib/constants';
+
+const BRAND = process.env.NEXT_PUBLIC_BRAND ?? 'naread';
+const IS_YMMEDIA = BRAND === 'ymmedia';
 
 export default function Footer() {
   return (
     <footer className="footer">
       <div className="footer-inner">
         <div className="footer-brand">
-          <div className="footer-logo">YM<span>미디어</span></div>
-          <p className="footer-tagline">콘텐츠로 사람의 운명을 읽습니다</p>
-          <p className="footer-eng">YM MEDIA — Reading destiny through content</p>
+          {IS_YMMEDIA ? (
+            // 운세당(와이엠): YM미디어 모기업 브랜드 노출
+            <>
+              <div className="footer-logo">YM<span>미디어</span></div>
+              <p className="footer-tagline">콘텐츠로 사람의 운명을 읽습니다</p>
+              <p className="footer-eng">YM MEDIA — Reading destiny through content</p>
+            </>
+          ) : (
+            // 운세당(나를읽다): 운세당 브랜드 단독 (나를읽다 일절 노출 없음)
+            <>
+              <div className="footer-seal">
+                <svg viewBox="0 0 60 100" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="3" y="3" width="54" height="94" rx="6" fill="#A8324A" stroke="#8B2238" strokeWidth="1.5"/>
+                  <rect x="7" y="7" width="46" height="86" rx="4" fill="none" stroke="#F5F0E8" strokeWidth="0.8"/>
+                  <text x="30" y="42" textAnchor="middle" fill="#F5F0E8" fontFamily="Noto Serif TC" fontSize="22" fontWeight="500">運</text>
+                  <text x="30" y="78" textAnchor="middle" fill="#F5F0E8" fontFamily="Noto Serif TC" fontSize="22" fontWeight="500">勢</text>
+                </svg>
+              </div>
+              <div className="footer-brand-name">운세당<span className="hanja">運勢堂</span></div>
+              <p className="footer-tagline">천 년의 명리학을 오늘의 당신에게</p>
+            </>
+          )}
         </div>
 
         <div className="footer-col">
           <h4>사업자 정보</h4>
           <dl>
-            <div><dt>상호</dt><dd>{COMPANY.name} ({COMPANY.nameFull})</dd></div>
+            <div><dt>상호</dt><dd>{COMPANY.name}</dd></div>
             <div><dt>대표자</dt><dd>{COMPANY.ceo}</dd></div>
             <div><dt>사업자등록번호</dt><dd>{COMPANY.bizNumber}</dd></div>
             <div><dt>통신판매업 신고</dt><dd>{COMPANY.ecommerceNumber}</dd></div>
-            <div><dt>사업장 주소</dt><dd>{COMPANY.address}<br/>({COMPANY.addressDetail})</dd></div>
+            <div><dt>사업장 주소</dt><dd>{COMPANY.address}</dd></div>
             <div><dt>고객센터</dt><dd>{COMPANY.phone}</dd></div>
             <div><dt>이메일</dt><dd><a href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a></dd></div>
           </dl>
@@ -33,11 +55,6 @@ export default function Footer() {
             <li><Link href="/faq">자주 묻는 질문</Link></li>
             <li><Link href="/contact">고객 문의</Link></li>
           </ul>
-
-          <h4 style={{ marginTop: '32px' }}>운영 브랜드</h4>
-          <ul>
-            <li><Link href="/unsedang">운세당 (運勢堂)</Link></li>
-          </ul>
         </div>
       </div>
 
@@ -51,8 +68,15 @@ export default function Footer() {
       <style>{`
         .footer { position: relative; z-index: 10; margin-top: 120px; padding: 80px 64px 0; background: linear-gradient(180deg, transparent 0%, rgba(20, 16, 31, 0.6) 100%); border-top: 1px solid var(--border); }
         .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1.2fr 1.5fr 1fr; gap: 60px; padding-bottom: 60px; }
+
         .footer-brand .footer-logo { font-family: var(--serif-en); font-weight: 500; font-size: 28px; letter-spacing: 0.18em; color: var(--white-baekja); margin-bottom: 8px; }
         .footer-brand .footer-logo span { font-family: var(--serif-kr); font-weight: 300; font-size: 14px; letter-spacing: 0.2em; color: var(--gold); margin-left: 10px; vertical-align: 4px; }
+
+        .footer-seal { width: 56px; height: auto; margin-bottom: 14px; filter: drop-shadow(0 0 16px rgba(168, 50, 74, 0.3)); }
+        .footer-seal svg { width: 100%; height: auto; display: block; }
+        .footer-brand-name { font-family: var(--serif-kr); font-weight: 500; font-size: 24px; letter-spacing: 0.25em; color: var(--gold-light); margin-bottom: 10px; }
+        .footer-brand-name .hanja { font-family: var(--serif-tc); font-weight: 300; font-size: 14px; letter-spacing: 0.1em; color: var(--gold-deep); margin-left: 10px; vertical-align: 3px; }
+
         .footer-tagline { font-family: var(--serif-kr); font-weight: 300; font-size: 15px; color: var(--text-secondary); line-height: 1.8; letter-spacing: 0.05em; margin-bottom: 12px; }
         .footer-eng { font-family: var(--serif-en); font-style: italic; font-size: 13px; color: var(--text-tertiary); letter-spacing: 0.05em; }
         .footer-col h4 { font-family: var(--serif-kr); font-weight: 500; font-size: 14px; letter-spacing: 0.2em; color: var(--gold-light); margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }

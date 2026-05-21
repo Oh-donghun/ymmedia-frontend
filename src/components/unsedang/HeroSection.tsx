@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import SmokeCanvas from './SmokeCanvas';
@@ -150,7 +150,7 @@ export default function HeroSection() {
         </p>
 
         <div className="cta">
-          <Link href="/unsedang/order" className="btn-primary">
+          <Link href="/order" className="btn-primary">
             재물 풀이 시작 <span className="price">₩19,800</span>
           </Link>
           <Link href="#axes" className="btn-secondary">먼저 살펴보기</Link>

@@ -6,6 +6,9 @@ interface NavProps {
   variant?: 'main' | 'unsedang';
 }
 
+const BRAND = process.env.NEXT_PUBLIC_BRAND ?? 'naread';
+const IS_YMMEDIA = BRAND === 'ymmedia';
+
 export default function Nav({ variant = 'main' }: NavProps) {
   const [scrolled, setScrolled] = useState(false);
 
@@ -19,18 +22,20 @@ export default function Nav({ variant = 'main' }: NavProps) {
 
   return (
     <nav className={`nav ${scrolled ? 'nav-scrolled' : ''}`}>
-      <Link href={isUnsedang ? '/unsedang' : '/'} className="logo-wrap">
-        {isUnsedang ? (
+      <Link href={isUnsedang ? '/' : '/'} className="logo-wrap">
+        {isUnsedang || !IS_YMMEDIA ? (
+          // 운세당 로고: 빨간 도장 인장 + "운세당 運勢堂"
           <>
-            <svg className="logo-seal" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
-              <rect x="2" y="2" width="32" height="32" fill="#A8324A" rx="1"/>
-              <rect x="4" y="4" width="28" height="28" fill="none" stroke="#F5F0E8" strokeWidth="0.8"/>
-              <text x="18" y="15" textAnchor="middle" fill="#F5F0E8" fontFamily="Noto Serif TC" fontSize="9" fontWeight="500">運</text>
-              <text x="18" y="27" textAnchor="middle" fill="#F5F0E8" fontFamily="Noto Serif TC" fontSize="9" fontWeight="500">勢</text>
+            <svg className="logo-seal" viewBox="0 0 36 60" xmlns="http://www.w3.org/2000/svg">
+              <rect x="2" y="2" width="32" height="56" rx="4" fill="#A8324A" stroke="#8B2238" strokeWidth="1"/>
+              <rect x="4" y="4" width="28" height="52" rx="3" fill="none" stroke="#F5F0E8" strokeWidth="0.6"/>
+              <text x="18" y="25" textAnchor="middle" fill="#F5F0E8" fontFamily="Noto Serif TC" fontSize="13" fontWeight="500">運</text>
+              <text x="18" y="46" textAnchor="middle" fill="#F5F0E8" fontFamily="Noto Serif TC" fontSize="13" fontWeight="500">勢</text>
             </svg>
             <span className="logo-text">운세당<span className="hanja">運勢堂</span></span>
           </>
         ) : (
+          // 운세당(와이엠) 메인 페이지(/): YM미디어 로고
           <span className="logo-text-main">YM<span className="ampersand">미디어</span></span>
         )}
       </Link>
@@ -38,16 +43,13 @@ export default function Nav({ variant = 'main' }: NavProps) {
       <ul className="nav-menu">
         {isUnsedang ? (
           <>
-            <li><Link href="/unsedang#about">운세당</Link></li>
-            <li><Link href="/unsedang#axes">재물 8축</Link></li>
-            <li><Link href="/unsedang/order" className="nav-cta">사주 보기</Link></li>
+            <li><Link href="/#about">운세당</Link></li>
+            <li><Link href="/#axes">재물 8축</Link></li>
+            <li><Link href="/order" className="nav-cta">사주 보기</Link></li>
           </>
         ) : (
           <>
-            <li><Link href="/about">소개</Link></li>
-            <li><Link href="/#brands">브랜드</Link></li>
-            <li><Link href="/contact">연락처</Link></li>
-            <li><Link href="/unsedang" className="nav-cta">운세당 ↗</Link></li>
+            <li><Link href="/" className="nav-cta">운세당 ↗</Link></li>
           </>
         )}
       </ul>
@@ -57,7 +59,7 @@ export default function Nav({ variant = 'main' }: NavProps) {
           position: fixed;
           top: 0; left: 0; right: 0;
           z-index: 100;
-          padding: 28px 64px;
+          padding: 18px 64px;
           display: flex;
           justify-content: space-between;
           align-items: center;
@@ -67,18 +69,22 @@ export default function Nav({ variant = 'main' }: NavProps) {
           transition: padding 0.4s ease, background 0.4s ease;
         }
         .nav-scrolled {
-          padding: 16px 64px;
+          padding: 12px 64px;
           background: rgba(10, 10, 18, 0.92);
           border-bottom: 1px solid var(--border);
         }
         .logo-wrap {
           display: flex;
           align-items: center;
-          gap: 14px;
+          gap: 12px;
           cursor: pointer;
           text-decoration: none;
         }
-        .logo-seal { width: 36px; height: 36px; }
+        .logo-seal {
+          width: 28px;
+          height: 46px;
+          filter: drop-shadow(0 0 10px rgba(168, 50, 74, 0.3));
+        }
         .logo-text {
           font-family: var(--serif-kr);
           font-weight: 400;
@@ -144,10 +150,13 @@ export default function Nav({ variant = 'main' }: NavProps) {
           color: var(--white-baekja);
         }
         @media (max-width: 768px) {
-          .nav { padding: 18px 24px; }
-          .nav-scrolled { padding: 14px 24px; }
-          .nav-menu { gap: 18px; }
+          .nav { padding: 14px 18px; }
+          .nav-scrolled { padding: 10px 18px; }
+          .nav-menu { gap: 14px; }
           .nav-menu :global(li):not(:last-child) { display: none; }
+          .logo-text { font-size: 18px; letter-spacing: 0.2em; }
+          .logo-text .hanja { font-size: 11px; margin-left: 6px; }
+          .logo-seal { width: 22px; height: 36px; }
         }
       `}</style>
     </nav>

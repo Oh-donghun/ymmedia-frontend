@@ -1,0 +1,340 @@
+.main {
+  min-height: 100vh;
+  background: #0a0612;
+  color: #e8e2d4;
+  font-family: 'Noto Serif KR', serif;
+  position: relative;
+  overflow-x: hidden;
+  padding-bottom: 60px;
+}
+
+.header {
+  text-align: center;
+  padding: 24px 16px 8px;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #c9a864;
+  text-decoration: none;
+  letter-spacing: 3px;
+}
+
+.logoKo {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.logoHanja {
+  font-size: 16px;
+  color: #8a6f3d;
+  font-weight: 400;
+}
+
+.formSection {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 24px 20px 40px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #e8e2d4;
+  letter-spacing: 2px;
+  line-height: 1.5;
+  margin-bottom: 12px;
+  animation: fadeUp 0.8s ease;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #a89e8a;
+  letter-spacing: 1px;
+  margin-bottom: 32px;
+  animation: fadeUp 0.8s 0.2s both;
+}
+
+.belowForm {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 20px;
+  color: #6a5e4a;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+.resultSection {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 24px 16px 40px;
+  position: relative;
+  z-index: 2;
+}
+
+.resultTitle {
+  text-align: center;
+  font-size: 22px;
+  color: #c9a864;
+  letter-spacing: 3px;
+  line-height: 1.5;
+  margin-bottom: 24px;
+  animation: fadeUp 0.6s ease;
+}
+
+.infoCards {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.infoCard {
+  background: rgba(20, 16, 30, 0.7);
+  border: 1px solid #2a2038;
+  border-radius: 12px;
+  padding: 18px;
+  animation: fadeUp 0.6s 0.4s both;
+}
+
+.infoCardTitle {
+  font-size: 15px;
+  color: #c9a864;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+
+.sajuList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sajuList li {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  font-size: 14px;
+  border-bottom: 1px dashed #2a2038;
+}
+
+.sajuList li:last-child {
+  border-bottom: none;
+}
+
+.sajuKey {
+  color: #8a7a6a;
+  letter-spacing: 1px;
+}
+
+.sajuVal {
+  color: #e8e2d4;
+}
+
+.intro {
+  font-size: 14px;
+  line-height: 1.8;
+  color: #d8c8a0;
+  letter-spacing: 0.5px;
+}
+
+.sealedSection {
+  margin-top: 32px;
+  animation: fadeUp 0.6s 0.6s both;
+}
+
+.sealedTitle {
+  text-align: center;
+  font-size: 16px;
+  color: #8a7a6a;
+  letter-spacing: 4px;
+  margin-bottom: 16px;
+}
+
+.sealedTitle::before,
+.sealedTitle::after {
+  content: '一';
+  margin: 0 12px;
+  color: #5a4a3a;
+}
+
+.sealedGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.sealedGrid > *:nth-child(5) {
+  grid-column: span 2;
+}
+
+.ctaSection {
+  margin-top: 36px;
+  padding: 24px 20px;
+  background: linear-gradient(135deg, rgba(201, 168, 100, 0.08), rgba(138, 111, 61, 0.04));
+  border: 1px solid #5a4a3a;
+  border-radius: 16px;
+  text-align: center;
+  animation: fadeUp 0.6s 0.8s both, goldPulse 4s ease-in-out 2s infinite;
+}
+
+.ctaIntro {
+  font-size: 17px;
+  color: #e0c992;
+  line-height: 1.6;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+
+.priceBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.listPrice {
+  color: #8a7a6a;
+  font-size: 16px;
+  text-decoration: line-through;
+}
+
+.salePrice {
+  color: #c9a864;
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-shadow: 0 0 16px rgba(201, 168, 100, 0.4);
+}
+
+.discount {
+  background: rgba(201, 168, 100, 0.15);
+  border: 1px solid #c9a864;
+  border-radius: 12px;
+  padding: 3px 10px;
+  color: #c9a864;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+.limitBox {
+  margin-bottom: 22px;
+}
+
+.limitCounter {
+  font-size: 14px;
+  color: #c9a864;
+  letter-spacing: 4px;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.limitBar {
+  height: 8px;
+  background: #1a1428;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.limitBarFill {
+  height: 100%;
+  background: linear-gradient(90deg, #8a6f3d, #c9a864, #e0c992);
+  background-size: 200% 100%;
+  animation: shimmer 3s linear infinite;
+  transition: width 1s ease;
+}
+
+.limitBox small {
+  color: #6a5e4a;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+.ctaButton {
+  width: 100%;
+  padding: 18px;
+  background: linear-gradient(135deg, #8a6f3d, #c9a864);
+  border: 1px solid #e0c992;
+  border-radius: 12px;
+  color: #0a0612;
+  font-family: 'Noto Serif KR', serif;
+  font-size: 17px;
+  font-weight: 900;
+  letter-spacing: 4px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  margin-bottom: 16px;
+}
+
+.ctaButton::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 50%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transform: translateX(-120%);
+  animation: shimmerLine 3s ease-in-out infinite;
+}
+
+.ctaButton:hover {
+  transform: scale(1.02);
+}
+
+.ctaButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.assurance {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: #8a7a6a;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes goldPulse {
+  0%, 100% {
+    box-shadow: 0 0 28px rgba(201, 168, 100, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 44px rgba(201, 168, 100, 0.3);
+  }
+}
+
+@keyframes shimmerLine {
+  from { transform: translateX(-120%); }
+  to { transform: translateX(220%); }
+}
+
+@keyframes shimmer {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 200% 0%; }
+}

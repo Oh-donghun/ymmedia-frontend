@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import Starfield from '@/components/Starfield';
@@ -75,9 +75,6 @@ export default function ContactPage() {
             <h3>주소</h3>
             <p className="card-main address">
               {COMPANY.address}
-            </p>
-            <p className="card-desc">
-              {COMPANY.addressDetail}
             </p>
           </div>
         </section>

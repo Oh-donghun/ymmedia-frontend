@@ -1,10 +1,10 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import Link from 'next/link';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import Starfield from '@/components/Starfield';
 import HeroSection from '@/components/unsedang/HeroSection';
-import { PRODUCT_JAEMUL, COMPANY } from '@/lib/constants';
+import { FUNNELS, SINGLE_PRODUCTS, COMPANY } from '@/lib/constants';
 
 export const metadata: Metadata = {
   title: '운세당 — 당신의 사주가 말합니다',
@@ -14,7 +14,15 @@ export const metadata: Metadata = {
 
 const HANJA_NUMS = ['壹', '貳', '參', '肆', '伍', '陸', '柒', '捌'];
 
+// J1만 라이브, 나머지는 곧 공개
+const LIVE_FUNNELS = new Set(['J1']);
+
+// J1 첫 상품 가격 라벨
+const J1_PRICE_LABEL = `₩${SINGLE_PRODUCTS.J1.priceNonMember.toLocaleString()}`;
+
 export default function UnsedangPage() {
+  const funnelList = Object.values(FUNNELS);
+
   return (
     <>
       <Starfield density={8000} goldStars={10} />
@@ -59,43 +67,47 @@ export default function UnsedangPage() {
           </p>
 
           <div className="axes-grid">
-            {PRODUCT_JAEMUL.axes.map((axis, i) => (
-              <div key={axis.code} className="axis-card">
-                <span className="axis-num">{HANJA_NUMS[i]}</span>
-                <h3 className="axis-label">{axis.label}</h3>
-                <p className="axis-desc">{axis.desc}</p>
-                <span className="axis-code">{axis.code}</span>
-              </div>
-            ))}
+            {funnelList.map((axis, i) => {
+              const isLive = LIVE_FUNNELS.has(axis.code);
+              return (
+                <div key={axis.code} className={`axis-card ${isLive ? 'live' : 'coming'}`}>
+                  <span className="axis-num">{HANJA_NUMS[i]}</span>
+                  <h3 className="axis-label">{axis.label}</h3>
+                  <p className="axis-desc">{axis.desc}</p>
+                  <span className="axis-code">{axis.code}</span>
+                  {!isLive && <span className="axis-soon">곧 공개</span>}
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
+      {/* CTA — J1 그릇 풀이 우선 라이브 */}
       <section className="final-cta">
         <div className="inner">
           <div className="eyebrow">
             <span className="line"></span>
-            <span className="text">財物 풀이 · 시작</span>
+            <span className="text">財物 · 그릇 풀이 · 시작</span>
             <span className="line"></span>
           </div>
           <h2 className="sec-title">
-            이제 당신의 <span className="accent">사주</span>를<br/>
+            먼저 당신의 <span className="accent">돈 그릇</span>을<br/>
             펼쳐 보겠습니다
           </h2>
           <p className="sec-desc">
             생년월일과 출생 시간을 알려주시면,<br/>
-            운세당이 약 15분 분량의 상세 풀이를 카카오톡으로 보내드립니다.
+            운세당이 당신의 돈 그릇 풀이를 카카오톡으로 보내드립니다.
           </p>
 
           <div className="price-box">
             <div className="price-row">
-              <span className="price-label">재물 풀이</span>
-              <span className="price-num">{PRODUCT_JAEMUL.priceLabel}</span>
+              <span className="price-label">{SINGLE_PRODUCTS.J1.name}</span>
+              <span className="price-num">{J1_PRICE_LABEL}</span>
             </div>
             <div className="price-row sm">
               <span>분량</span>
-              <span>{PRODUCT_JAEMUL.duration}</span>
+              <span>{SINGLE_PRODUCTS.J1.duration}</span>
             </div>
             <div className="price-row sm">
               <span>전달 방법</span>
@@ -107,8 +119,8 @@ export default function UnsedangPage() {
             </div>
           </div>
 
-          <Link href="/unsedang/order" className="btn-primary-big">
-            재물 풀이 시작하기 ↗
+          <Link href="/order" className="btn-primary-big">
+            돈 그릇 풀이 시작하기 ↗
           </Link>
 
           <p className="legal-link">
@@ -187,6 +199,11 @@ export default function UnsedangPage() {
           box-shadow: 0 24px 60px rgba(168, 50, 74, 0.12);
         }
         .axis-card:hover::before { opacity: 1; }
+        .axis-card.live {
+          border-color: var(--gold);
+          box-shadow: 0 0 0 1px rgba(201, 168, 100, 0.3);
+        }
+        .axis-card.coming { opacity: 0.55; }
         .axis-num {
           display: block;
           font-family: var(--serif-tc); font-weight: 400;
@@ -209,6 +226,15 @@ export default function UnsedangPage() {
           font-family: var(--serif-en); font-style: italic;
           font-size: 11px; color: var(--gold-deep);
           letter-spacing: 0.2em;
+        }
+        .axis-soon {
+          display: inline-block;
+          margin-top: 12px;
+          padding: 4px 10px;
+          font-family: var(--serif-kr); font-weight: 300;
+          font-size: 11px; letter-spacing: 0.15em;
+          color: var(--text-tertiary);
+          border: 1px solid var(--border);
         }
 
         .final-cta {

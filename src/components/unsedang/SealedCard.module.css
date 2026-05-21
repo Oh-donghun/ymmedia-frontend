@@ -1,0 +1,36 @@
+.card {
+  background: rgba(20, 16, 30, 0.5);
+  border: 1px solid #2a2038;
+  border-radius: 10px;
+  padding: 18px 14px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  filter: brightness(0.7) saturate(0.6);
+  cursor: not-allowed;
+  transition: filter 0.3s ease;
+}
+
+.card:hover {
+  filter: brightness(0.85) saturate(0.8);
+}
+
+.lock {
+  font-size: 20px;
+  margin-bottom: 8px;
+  opacity: 0.6;
+}
+
+.title {
+  font-size: 14px;
+  color: #8a7a6a;
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+  font-weight: 700;
+}
+
+.sub {
+  font-size: 11px;
+  color: #5a4e3a;
+  letter-spacing: 1px;
+}
