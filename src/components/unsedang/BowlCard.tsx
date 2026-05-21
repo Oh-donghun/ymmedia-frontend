@@ -42,37 +42,55 @@ export default function BowlCard({
       const video = videoRef.current;
       const card = cardRef.current;
 
-      let tempImg: HTMLImageElement | null = null;
-      if (video) {
-        tempImg = document.createElement('img');
-        tempImg.src = `${API_URL}/api/proxy-image?url=${encodeURIComponent(`${R2_BASE}/${bowl}.webp`)}`;
-        tempImg.crossOrigin = 'anonymous';
-        tempImg.className = styles.video;
+      // 1. 프록시 경유 이미지를 base64로 미리 받기
+      const proxyUrl = `${API_URL}/api/proxy-image?url=${encodeURIComponent(`${R2_BASE}/${bowl}.webp`)}`;
+      const imgResponse = await fetch(proxyUrl);
+      const imgBlob = await imgResponse.blob();
+      const imgBase64 = await new Promise<string>((resolve) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result as string);
+        reader.readAsDataURL(imgBlob);
+      });
 
-        await new Promise<void>((resolve, reject) => {
-          if (!tempImg) return reject();
-          tempImg.onload = () => resolve();
-          tempImg.onerror = () => reject();
-          setTimeout(() => resolve(), 2000);
-        });
+      // 2. video를 숨기고 같은 자리에 base64 이미지 삽입 (절대 위치로 자리 고정)
+      let tempImg: HTMLImageElement | null = null;
+      const originalDisplay = video?.style.display || '';
+      
+      if (video && video.parentElement) {
+        tempImg = document.createElement('img');
+        tempImg.src = imgBase64;
+        tempImg.style.position = 'absolute';
+        tempImg.style.top = '0';
+        tempImg.style.left = '0';
+        tempImg.style.width = '100%';
+        tempImg.style.height = '100%';
+        tempImg.style.objectFit = 'cover';
+        tempImg.style.zIndex = '1';
+        tempImg.style.display = 'block';
 
         video.style.display = 'none';
-        video.parentElement?.insertBefore(tempImg, video);
+        video.parentElement.insertBefore(tempImg, video);
+
+        // 렌더링 대기 (1프레임)
+        await new Promise((r) => requestAnimationFrame(() => r(null)));
       }
 
+      // 3. html2canvas 캡처
       const canvas = await html2canvas(card, {
         backgroundColor: '#0a0612',
         scale: 2,
         useCORS: true,
-        allowTaint: false,
+        allowTaint: true,
         logging: false,
       });
 
+      // 4. video 복귀
       if (video && tempImg) {
         tempImg.remove();
-        video.style.display = '';
+        video.style.display = originalDisplay;
       }
 
+      // 5. 다운로드
       const link = document.createElement('a');
       link.download = `운세당_${bowlLabelKo}_${userName}.png`;
       link.href = canvas.toDataURL('image/png');
