@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { BRAND_ID } from '@/lib/constants';
 import Starfield from '@/components/Starfield';
 import SajuForm, { SajuFormData } from '@/components/unsedang/SajuForm';
 import BowlCard from '@/components/unsedang/BowlCard';
@@ -91,8 +92,21 @@ export default function J1Page() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          productCode: 'UNSEDANG_J1',
-          buyer: formData,
+          productCode: 'J1_SINGLE',
+          brand: BRAND_ID,
+          name: formData.name,
+          phone: formData.phone,
+          gender: formData.gender,
+          birth: {
+            year: parseInt(formData.year, 10),
+            month: parseInt(formData.month, 10),
+            day: parseInt(formData.day, 10),
+            hour: formData.unknownTime ? null : parseInt(formData.hour, 10),
+            calendar: formData.calendarType,
+            isLeapMonth: false,
+          },
+          agreedTerms: true,
+          agreedPrivacy: true,
         }),
       });
 

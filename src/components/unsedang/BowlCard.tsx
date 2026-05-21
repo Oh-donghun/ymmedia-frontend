@@ -146,7 +146,7 @@ export default function BowlCard({
             <span className={styles.score}>{score}점</span>
           </div>
           <div className={styles.verse}>&ldquo;{verse}&rdquo;</div>
-          <div className={styles.watermark}>readmelab.co.kr/unsedang/j1</div>
+          <div className={styles.watermark}>運勢堂 · 운세당</div>
         </div>
       </div>
 
