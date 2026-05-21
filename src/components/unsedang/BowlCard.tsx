@@ -4,6 +4,7 @@ import { useRef, useState } from 'react';
 import styles from './BowlCard.module.css';
 
 const R2_BASE = 'https://audio.readmelab.co.kr/unsedang/j1';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://ymmedia-server-svwkzchhha-du.a.run.app';
 
 interface BowlCardProps {
   bowl: string;
@@ -44,7 +45,7 @@ export default function BowlCard({
       let tempImg: HTMLImageElement | null = null;
       if (video) {
         tempImg = document.createElement('img');
-        tempImg.src = `${R2_BASE}/${bowl}.webp`;
+        tempImg.src = `${API_URL}/api/proxy-image?url=${encodeURIComponent(`${R2_BASE}/${bowl}.webp`)}`;
         tempImg.crossOrigin = 'anonymous';
         tempImg.className = styles.video;
 
