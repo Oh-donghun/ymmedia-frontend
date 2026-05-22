@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>결제하기 — 와이엠미디어</title>
+<meta name="description" content="와이엠미디어 디지털 콘텐츠 결제 페이지">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;700&family=Pretendard:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://js.tosspayments.com/v2/standard"></script>
+<style>
+:root {
+  --ink: #1a1d23; --ink-light: #4a4d53; --ink-mute: #8a8d93;
+  --bg: #fafaf7; --bg-card: #ffffff;
+  --line: #e8e6df; --line-strong: #d0cdc4;
+  --accent: #2a3f5f;
+  --error: #c14545;
+  --serif: 'Noto Serif KR', serif;
+  --sans: 'Pretendard', -apple-system, system-ui, sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--sans); color: var(--ink); background: var(--bg); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+.container { max-width: 720px; margin: 0 auto; padding: 0 32px; }
+
+/* Header */
+.header { border-bottom: 1px solid var(--line); background: var(--bg-card); }
+.header-inner { max-width: 960px; margin: 0 auto; padding: 24px 32px; display: flex; justify-content: space-between; align-items: center; }
+.logo { font-family: var(--serif); font-weight: 500; font-size: 20px; color: var(--ink); text-decoration: none; letter-spacing: 0.04em; }
+.logo span { color: var(--accent); }
+.back-link { font-size: 13px; color: var(--ink-light); text-decoration: none; }
+.back-link:hover { color: var(--accent); }
+
+/* Page */
+.page { padding: 40px 0 80px; }
+.page-label { font-size: 12px; font-weight: 500; letter-spacing: 0.18em; color: var(--accent); text-transform: uppercase; margin-bottom: 12px; }
+.page-title { font-family: var(--serif); font-size: 28px; font-weight: 500; margin-bottom: 8px; color: var(--ink); }
+.page-desc { font-size: 14px; color: var(--ink-light); margin-bottom: 40px; }
+
+/* Order summary */
+.summary { background: var(--bg-card); border: 1px solid var(--line); padding: 24px; margin-bottom: 32px; }
+.summary-title { font-family: var(--serif); font-size: 14px; font-weight: 500; color: var(--ink-mute); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 16px; }
+.summary-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px; }
+.summary-row.total { padding-top: 16px; margin-top: 8px; border-top: 1px solid var(--line); font-size: 15px; font-weight: 500; }
+.summary-row .label { color: var(--ink-light); }
+.summary-row .value { color: var(--ink); font-weight: 500; }
+.summary-row.total .value { font-family: var(--serif); font-size: 20px; color: var(--accent); }
+
+/* Form */
+.form-section { background: var(--bg-card); border: 1px solid var(--line); padding: 32px; margin-bottom: 24px; }
+.form-section h3 { font-family: var(--serif); font-size: 16px; font-weight: 500; color: var(--ink); margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+.field { margin-bottom: 18px; }
+.field label { display: block; font-size: 13px; color: var(--ink-light); margin-bottom: 6px; font-weight: 500; }
+.field label .req { color: var(--error); margin-left: 2px; }
+.field input, .field select {
+  width: 100%; padding: 12px 14px; font-size: 15px;
+  font-family: var(--sans); color: var(--ink);
+  background: #fff;
+  border: 1px solid var(--line-strong);
+  outline: none; transition: border-color 0.15s;
+}
+.field input:focus, .field select:focus { border-color: var(--accent); }
+.field-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+.field-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.field-hint { font-size: 12px; color: var(--ink-mute); margin-top: 4px; }
+
+/* Agreement */
+.agree { padding: 14px 16px; background: #f4f3ee; margin-bottom: 10px; font-size: 13px; }
+.agree label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; color: var(--ink); }
+.agree input[type="checkbox"] { margin-top: 3px; cursor: pointer; }
+.agree a { color: var(--accent); text-decoration: underline; }
+
+/* Pay button */
+.pay-btn {
+  width: 100%; padding: 18px; margin-top: 16px;
+  background: var(--accent); color: #fff;
+  border: none; cursor: pointer;
+  font-family: var(--sans); font-size: 15px; font-weight: 500;
+  letter-spacing: 0.06em;
+  transition: background 0.2s;
+}
+.pay-btn:hover:not(:disabled) { background: #1a2a4a; }
+.pay-btn:disabled { background: var(--ink-mute); cursor: not-allowed; }
+
+/* Test notice */
+.test-notice {
+  margin-top: 16px;
+  padding: 12px 16px;
+  background: #fff8e1;
+  border: 1px solid #f0d878;
+  font-size: 12px;
+  color: #5a4a1a;
+}
+
+/* Footer */
+.footer { margin-top: 60px; background: #f4f3ee; border-top: 1px solid var(--line-strong); padding: 32px 0; font-size: 12px; color: var(--ink-mute); text-align: center; }
+.footer a { color: var(--ink-light); text-decoration: none; margin: 0 12px; }
+.footer a:hover { color: var(--accent); }
+
+@media (max-width: 720px) {
+  .container, .header-inner { padding: 0 20px; }
+  .page-title { font-size: 22px; }
+  .form-section { padding: 24px 20px; }
+  .field-row { grid-template-columns: 1fr; gap: 8px; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <a class="logo" href="/">와이엠<span>미디어</span></a>
+    <a class="back-link" href="/">← 메인으로</a>
+  </div>
+</header>
+
+<main class="page">
+  <div class="container">
+    <div class="page-label">Checkout</div>
+    <h1 class="page-title">결제하기</h1>
+    <p class="page-desc">주문 정보를 입력해주세요. 결제 완료 후 카카오톡으로 콘텐츠가 전달됩니다.</p>
+
+    <!-- 주문 요약 -->
+    <div class="summary">
+      <div class="summary-title">주문 상품</div>
+      <div class="summary-row"><span class="label">사주 명리 콘텐츠 1편</span><span class="value">₩9,900</span></div>
+      <div class="summary-row total"><span class="label">최종 결제 금액</span><span class="value">₩9,900</span></div>
+    </div>
+
+    <!-- 구매자 정보 -->
+    <div class="form-section">
+      <h3>구매자 정보</h3>
+      <div class="field">
+        <label>이름<span class="req">*</span></label>
+        <input type="text" id="name" placeholder="홍길동" required>
+      </div>
+      <div class="field">
+        <label>휴대전화 번호<span class="req">*</span></label>
+        <input type="tel" id="phone" placeholder="010-1234-5678" required>
+        <div class="field-hint">콘텐츠가 카카오톡으로 전달될 번호입니다.</div>
+      </div>
+      <div class="field">
+        <label>이메일</label>
+        <input type="email" id="email" placeholder="example@email.com">
+        <div class="field-hint">결제 영수증을 받으실 이메일 (선택)</div>
+      </div>
+    </div>
+
+    <!-- 콘텐츠 입력 정보 -->
+    <div class="form-section">
+      <h3>콘텐츠 생성용 정보</h3>
+      <div class="field">
+        <label>생년월일<span class="req">*</span></label>
+        <div class="field-row">
+          <input type="number" id="birthYear" placeholder="1990" min="1900" max="2026" required>
+          <input type="number" id="birthMonth" placeholder="1" min="1" max="12" required>
+          <input type="number" id="birthDay" placeholder="1" min="1" max="31" required>
+        </div>
+      </div>
+      <div class="field">
+        <label>달력</label>
+        <select id="calendar">
+          <option value="solar">양력</option>
+          <option value="lunar">음력</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>출생 시간</label>
+        <div class="field-row-2">
+          <select id="birthHour">
+            <option value="">시간 모름</option>
+            <option value="0">0시</option><option value="1">1시</option><option value="2">2시</option>
+            <option value="3">3시</option><option value="4">4시</option><option value="5">5시</option>
+            <option value="6">6시</option><option value="7">7시</option><option value="8">8시</option>
+            <option value="9">9시</option><option value="10">10시</option><option value="11">11시</option>
+            <option value="12">12시</option><option value="13">13시</option><option value="14">14시</option>
+            <option value="15">15시</option><option value="16">16시</option><option value="17">17시</option>
+            <option value="18">18시</option><option value="19">19시</option><option value="20">20시</option>
+            <option value="21">21시</option><option value="22">22시</option><option value="23">23시</option>
+          </select>
+        </div>
+        <div class="field-hint">출생 시간이 정확할수록 더 정밀한 분석이 가능합니다 (선택).</div>
+      </div>
+    </div>
+
+    <!-- 약관 -->
+    <div class="form-section">
+      <h3>약관 동의</h3>
+      <div class="agree">
+        <label>
+          <input type="checkbox" id="agreeTerms" required>
+          <span>[필수] <a href="/terms.html" target="_blank">이용약관</a>에 동의합니다.</span>
+        </label>
+      </div>
+      <div class="agree">
+        <label>
+          <input type="checkbox" id="agreePrivacy" required>
+          <span>[필수] <a href="/privacy.html" target="_blank">개인정보 수집 및 이용</a>에 동의합니다.</span>
+        </label>
+      </div>
+      <div class="agree">
+        <label>
+          <input type="checkbox" id="agreeRefund" required>
+          <span>[필수] <a href="/refund.html" target="_blank">디지털 콘텐츠 특성상 발송 후 환불이 제한</a>됨을 확인하였습니다.</span>
+        </label>
+      </div>
+
+      <button class="pay-btn" id="payBtn" disabled>약관에 모두 동의해주세요</button>
+
+      <div class="test-notice">
+        ⓘ 현재 테스트 결제 환경입니다. 실제 카드 결제가 이루어지지 않으며, 토스페이먼츠 가맹점 심사 완료 후 실 결제가 활성화됩니다.
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div>
+    <a href="/terms.html">이용약관</a>
+    <a href="/privacy.html">개인정보처리방침</a>
+    <a href="/refund.html">환불정책</a>
+  </div>
+  <div style="margin-top:14px;">© 2026 와이엠미디어 · 사업자등록번호 253-13-02733</div>
+</footer>
+
+<script>
+// 토스 테스트 클라이언트 키
+const TOSS_CLIENT_KEY = "test_ck_5OWRapdA8dJeyYKg21JXVo1zEqZK";
+const tossPayments = TossPayments(TOSS_CLIENT_KEY);
+
+// 약관 모두 체크해야 버튼 활성화
+const agrees = ["agreeTerms", "agreePrivacy", "agreeRefund"].map(id => document.getElementById(id));
+const payBtn = document.getElementById("payBtn");
+
+function checkAgree() {
+  const all = agrees.every(c => c.checked);
+  payBtn.disabled = !all;
+  payBtn.textContent = all ? "₩9,900 결제하기" : "약관에 모두 동의해주세요";
+}
+agrees.forEach(c => c.addEventListener("change", checkAgree));
+
+// 전화번호 자동 하이픈
+document.getElementById("phone").addEventListener("input", function(e) {
+  let v = e.target.value.replace(/[^0-9]/g, "");
+  if (v.length > 11) v = v.slice(0, 11);
+  if (v.length > 7) v = v.slice(0,3) + "-" + v.slice(3,7) + "-" + v.slice(7);
+  else if (v.length > 3) v = v.slice(0,3) + "-" + v.slice(3);
+  e.target.value = v;
+});
+
+// 입력 검증
+function validate() {
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const year = document.getElementById("birthYear").value;
+  const month = document.getElementById("birthMonth").value;
+  const day = document.getElementById("birthDay").value;
+
+  if (!name || name.length < 2) { alert("이름을 입력해주세요."); return false; }
+  if (!/^010-\d{4}-\d{4}$/.test(phone)) { alert("올바른 휴대전화 번호를 입력해주세요. (010-XXXX-XXXX)"); return false; }
+  if (!year || !month || !day) { alert("생년월일을 입력해주세요."); return false; }
+  if (year < 1900 || year > 2026) { alert("올바른 생년을 입력해주세요."); return false; }
+  if (month < 1 || month > 12) { alert("올바른 월을 입력해주세요."); return false; }
+  if (day < 1 || day > 31) { alert("올바른 일을 입력해주세요."); return false; }
+  return true;
+}
+
+// 주문번호 생성
+function genOrderId() {
+  const d = new Date();
+  const ymd = d.getFullYear().toString().slice(2) + String(d.getMonth()+1).padStart(2,"0") + String(d.getDate()).padStart(2,"0");
+  const rand = Math.random().toString(36).slice(2, 8).toUpperCase();
+  return `YM-${ymd}-${rand}`;
+}
+
+// 결제 버튼
+payBtn.addEventListener("click", async function() {
+  if (!validate()) return;
+
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const orderId = genOrderId();
+
+  payBtn.disabled = true;
+  payBtn.textContent = "결제창을 여는 중...";
+
+  try {
+    const payment = tossPayments.payment({ customerKey: "ANONYMOUS" });
+    await payment.requestPayment({
+      method: "CARD",
+      amount: { currency: "KRW", value: 9900 },
+      orderId: orderId,
+      orderName: "사주 명리 콘텐츠 1편",
+      successUrl: window.location.origin + "/payment-success.html",
+      failUrl: window.location.origin + "/payment-fail.html",
+      customerEmail: email || undefined,
+      customerName: name,
+      customerMobilePhone: phone.replace(/-/g, ""),
+      card: { useEscrow: false, flowMode: "DEFAULT", useCardPoint: false, useAppCardOnly: false }
+    });
+  } catch (e) {
+    if (e.code === "USER_CANCEL") {
+      payBtn.disabled = false;
+      payBtn.textContent = "₩9,900 결제하기";
+    } else {
+      alert("결제 요청 중 오류: " + (e.message || e.code));
+      payBtn.disabled = false;
+      payBtn.textContent = "₩9,900 결제하기";
+    }
+  }
+});
+</script>
+
+</body>
+</html>

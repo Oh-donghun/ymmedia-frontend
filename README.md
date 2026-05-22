@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 와이엠미디어 토스 심사용 미니 사이트
 
-## Getting Started
+토스페이먼츠 가맹점 심사 통과를 위한 최소 페이지 7장. 순수 HTML/CSS/JS, 빌드 X, 의존성 X.
 
-First, run the development server:
+## 파일 구성
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+| 파일 | 용도 |
+|---|---|
+| `index.html` | 메인 (회사 소개 + 상품 1개 + 푸터 필수 정보) |
+| `checkout.html` | 결제 페이지 (토스 SDK + 입력 폼 + 약관 동의) |
+| `payment-success.html` | 결제 성공 |
+| `payment-fail.html` | 결제 실패 |
+| `terms.html` | 이용약관 |
+| `privacy.html` | 개인정보처리방침 |
+| `refund.html` | 환불정책 |
+| `contact.html` | 고객 문의 (FAQ 포함) |
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 토스 심사 체크리스트
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- [x] 푸터 필수 정보 (상호/대표/사업자번호/통신판매업/주소/전화/이메일)
+- [x] 이용약관
+- [x] 개인정보처리방침
+- [x] 환불정책 (배송·교환·환불 명시)
+- [x] 판매 상품 1개 (이미지·가격·상세 설명)
+- [x] 결제 흐름 (토스 SDK 실제 호출, 테스트 키)
+- [x] 상품 상세에 배송/교환/환불 명시
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 배포 방법 (가장 빠른 순)
 
-## Learn More
+### A. Vercel (드래그앤드롭, 1분)
 
-To learn more about Next.js, take a look at the following resources:
+1. https://vercel.com 로그인
+2. 우측 상단 "Add New..." → "Project"
+3. **"Deploy without Git"** 또는 폴더 드래그
+4. 이 폴더(`ymmedia-site/`) 전체 드래그
+5. 도메인 자동 할당됨 → Settings → Domains에서 `ymmedia.co.kr` 연결
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### B. 기존 `ymmedia-frontend` 저장소 활용 (Vercel 자동)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. `ymmedia-frontend` 저장소를 **이 파일들로 완전히 교체**
+2. `vercel.json`, `next.config.ts`, `package.json` 등 **다 삭제**
+3. 이 HTML 7개만 루트에 두기
+4. git push → Vercel이 정적 사이트로 자동 인식 (빌드 명령 없음)
 
-## Deploy on Vercel
+### C. GitHub Pages (Vercel 안 쓰고)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. 새 저장소 `ymmedia-pages` 만들고 이 파일들 push
+2. Settings → Pages → Source: main branch / root → Save
+3. Cloudflare DNS에서 ymmedia.co.kr → GitHub Pages CNAME 연결
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 결제 테스트 방법
+
+1. https://ymmedia.co.kr/checkout.html 접속
+2. 이름/전화/생년월일 입력
+3. 약관 3개 모두 체크
+4. ₩9,900 결제하기 클릭
+5. 토스 결제창 열림 → 테스트 카드 정보 입력
+   - 카드번호: `4330-1234-1234-1234`
+   - 유효기간: 임의 (예: 12/30)
+   - CVC: 임의 (예: 123)
+   - 비밀번호 앞 2자리: 임의 (예: 12)
+   - 생년월일/사업자번호: 임의
+6. 결제 성공 → `/payment-success.html` 이동
+
+## 토스 심사 신청 시 제출 정보
+
+- **사이트 주소**: https://www.ymmedia.co.kr/
+- **결제 페이지 URL**: https://www.ymmedia.co.kr/checkout.html
+- **상품 페이지 URL**: https://www.ymmedia.co.kr/#product
+- **약관 페이지**: https://www.ymmedia.co.kr/terms.html
+- **개인정보**: https://www.ymmedia.co.kr/privacy.html
+- **환불정책**: https://www.ymmedia.co.kr/refund.html
+
+## 주의사항
+
+- 모든 파일은 **UTF-8 (BOM 없음)** 으로 저장됨
+- 토스 키는 **테스트 키만** 박혀있음 (`test_ck_5OWRapdA8dJeyYKg21JXVo1zEqZK`)
+- 라이브 키 전환은 토스 심사 통과 후
+- 백엔드 연동 없음 (정적 사이트만)
+- successUrl/failUrl이 같은 도메인 페이지로 설정되어 있음
