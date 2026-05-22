@@ -1,4 +1,4 @@
-﻿{
+{
   "rewrites": [
     { "source": "/unsedang/order", "destination": "/unsedang/order/index.html" },
     { "source": "/unsedang/order/confirm", "destination": "/unsedang/order/confirm/index.html" },
