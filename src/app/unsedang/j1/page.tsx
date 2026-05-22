@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -139,7 +139,7 @@ export default function J1Page() {
       <Starfield />
 
       <header className={styles.header}>
-        <Link href="/unsedang" className={styles.logo}>
+        <Link href="/" className={styles.logo}>
           <span className={styles.logoKo}>운세당</span>
           <span className={styles.logoHanja}>運勢堂</span>
         </Link>
@@ -258,6 +258,16 @@ export default function J1Page() {
               <small>* 9가지 결제 수단</small>
               <small>* 결과는 카카오톡으로 도착</small>
             </div>
+          </div>
+          <div className={styles.restartSection}>
+            <button
+              type="button"
+              className={styles.restartBtn}
+              onClick={() => { setStep('form'); setPreview(null); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+            >
+              ↻ 다른 사주 다시 보기
+            </button>
+            <small className={styles.restartHint}>가족·친구·연인의 사주도 무료로 풀어보세요</small>
           </div>
         </section>
       )}

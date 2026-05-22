@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect } from 'react';
 import styles from './SajuForm.module.css';
@@ -92,6 +92,14 @@ export default function SajuForm({ onSubmit, loading = false }: SajuFormProps) {
   const months = Array.from({ length: 12 }, (_, i) => i + 1);
   const days = Array.from({ length: 31 }, (_, i) => i + 1);
   const hours = Array.from({ length: 24 }, (_, i) => i);
+  const HOUR_BRANCH: { [k: number]: string } = {
+    0:'자시 子', 1:'자시 子', 2:'축시 丑', 3:'축시 丑',
+    4:'인시 寅', 5:'인시 寅', 6:'묘시 卯', 7:'묘시 卯',
+    8:'진시 辰', 9:'진시 辰', 10:'사시 巳', 11:'사시 巳',
+    12:'오시 午', 13:'오시 午', 14:'미시 未', 15:'미시 未',
+    16:'신시 申', 17:'신시 申', 18:'유시 酉', 19:'유시 酉',
+    20:'술시 戌', 21:'술시 戌', 22:'해시 亥', 23:'해시 亥'
+  };
 
   return (
     <div className={styles.form}>
@@ -187,7 +195,7 @@ export default function SajuForm({ onSubmit, loading = false }: SajuFormProps) {
             onChange={(e) => setForm({ ...form, hour: e.target.value })}
             disabled={form.unknownTime}
           >
-            {hours.map((h) => <option key={h} value={h}>{h}시</option>)}
+            {hours.map((h) => <option key={h} value={h}>{h}시 ({HOUR_BRANCH[h]})</option>)}
           </select>
           <button
             type="button"
