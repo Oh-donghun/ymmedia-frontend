@@ -156,7 +156,7 @@ export default function OrderPage() {
         })
       );
 
-      router.push('/unsedang/order/confirm');
+      router.push('/order/confirm');
     } catch (err) {
       console.error(err);
       setErrorMsg('네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');

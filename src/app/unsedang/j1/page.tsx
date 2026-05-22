@@ -127,7 +127,7 @@ export default function J1Page() {
           customerPhone: formData.phone.replace(/\D/g, ''),
         })
       );
-      router.push('/unsedang/order/confirm');
+      router.push('/order/confirm');
     } catch (err) {
       alert('결제 진입에 실패했습니다. 다시 시도해 주세요.');
       setLoading(false);
