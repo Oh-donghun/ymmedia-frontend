@@ -1,11 +1,12 @@
 ﻿import type { NextConfig } from "next";
 
-const isVercel = process.env.VERCEL === '1';
-console.log('[next.config] VERCEL env =', process.env.VERCEL, '| isVercel =', isVercel, '| basePath =', isVercel ? '(empty)' : '/unsedang');
+// VERCEL 환경변수 대신 NEXT_PUBLIC_BRAND === 'ymmedia'로 분기
+const isYmmedia = process.env.NEXT_PUBLIC_BRAND === 'ymmedia';
+console.log('[next.config] BRAND =', process.env.NEXT_PUBLIC_BRAND, '| isYmmedia =', isYmmedia, '| basePath =', isYmmedia ? '(empty)' : '/unsedang');
 
 const nextConfig: NextConfig = {
   output: 'export',
-  basePath: isVercel ? '' : '/unsedang',
+  basePath: isYmmedia ? '' : '/unsedang',
   trailingSlash: true,
   images: { unoptimized: true },
   reactStrictMode: true,
