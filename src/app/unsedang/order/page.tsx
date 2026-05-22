@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -156,7 +156,7 @@ export default function OrderPage() {
         })
       );
 
-      router.push('/order/confirm');
+      router.push('/unsedang/order/confirm');
     } catch (err) {
       console.error(err);
       setErrorMsg('네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');

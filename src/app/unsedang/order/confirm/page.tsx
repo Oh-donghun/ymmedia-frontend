@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Nav from '@/components/Nav';
@@ -123,7 +123,7 @@ export default function ConfirmPage() {
           {errorMsg && (
             <div className="error-box">
               <p>⚠ {errorMsg}</p>
-              <button onClick={() => router.push('/order')} className="retry">
+              <button onClick={() => router.push('/unsedang/order')} className="retry">
                 다시 신청하기
               </button>
             </div>
